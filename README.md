@@ -70,7 +70,7 @@ Real DNA data-storage systems may require additional considerations such as:
 ## Upcoming Features
 
 Future improvements will include:
-
+-Streamlit-based interactive web interface
 - DNA sequence validation
 - Error correction
 - Sequence chunking

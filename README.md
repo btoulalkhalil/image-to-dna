@@ -55,9 +55,9 @@ Real DNA data-storage systems may require additional considerations such as:
 - Sequence length
 - DNA synthesis and sequencing errors
 
-## Future Work
+## Upcoming Features
 
-Future improvements may include:
+Future improvements will include:
 
 - DNA sequence validation
 - Error correction

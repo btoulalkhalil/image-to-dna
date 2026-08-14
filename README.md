@@ -34,12 +34,24 @@ DNA Sequence → Binary → Bytes → Reconstructed Image
 
 ## Example
 
-An image is first encoded into a sequence such as:
+Here is a simple example demonstrating the complete encoding and decoding process.
 
-`ACGTGCAATCG...`
+### Original Image
 
-The stored DNA sequence can then be read independently and decoded to
-reconstruct the original image.
+![Original image](examples/Happy%20Face.png)
+
+### DNA-Encoded Data
+
+The image is converted into binary data and mapped to DNA nucleotides (A, C, G, and T).
+
+A complete example of the generated DNA sequence is available in:
+[`encoded_dna.txt`](examples/encoded_dna.txt)
+
+### Reconstructed Image
+
+The DNA sequence can then be decoded back into the original image data.
+
+![Reconstructed image](examples/reconstructed.jpg)
 
 ## Limitations
 

@@ -20,19 +20,15 @@ BASE_TO_BITS = {
 
 
 
-# 2. ENCODE FUNCTION
+# 2. ENCODE FUNCTIONS
 # from image to DNA sequence
 
 
-def image_to_dna(image_path):
+def bytes_to_dna(data):
 
-    # Open the image as binary data
-    with open(image_path, "rb") as file:
-        data = file.read()
+    dna_bases = []
 
-    dna_sequence = ""
-
-    # Go through every byte in the image
+    # Go through every byte of the data
     for byte in data:
 
         # Convert the byte into 8 bits
@@ -44,16 +40,48 @@ def image_to_dna(image_path):
             pair = bits[i:i+2]
 
             # Convert the pair into A, C, G, or T
-            dna_sequence += BITS_TO_BASE[pair]
+            dna_bases.append(BITS_TO_BASE[pair])
+
+    return "".join(dna_bases)
+
+
+def image_to_dna(image_path):
+
+    # Open the image as binary data
+    with open(image_path, "rb") as file:
+        data = file.read()
+
+    return bytes_to_dna(data)
+
+
+
+# 3. DECODE FUNCTIONS
+# from DNA sequence to image
+
+def clean_dna(dna_sequence):
+
+    # Remove spaces/newlines and accept lowercase letters
+    dna_sequence = "".join(dna_sequence.split()).upper()
+
+    invalid = set(dna_sequence) - set(BASE_TO_BITS)
+    if invalid:
+        raise ValueError(
+            "Invalid characters in DNA sequence: " + ", ".join(sorted(invalid))
+        )
+
+    # Every byte is 4 bases, so the length must be a multiple of 4
+    if len(dna_sequence) % 4 != 0:
+        raise ValueError(
+            "DNA sequence length must be a multiple of 4 (got "
+            + str(len(dna_sequence)) + ")"
+        )
 
     return dna_sequence
 
 
+def dna_to_bytes(dna_sequence):
 
-# 3. DECODE FUNCTION
-# from DNA sequence to image
-
-def dna_to_image(dna_sequence, output_path):
+    dna_sequence = clean_dna(dna_sequence)
 
     image_bytes = bytearray()
 
@@ -72,6 +100,13 @@ def dna_to_image(dna_sequence, output_path):
         byte = int(bits, 2)
 
         image_bytes.append(byte)
+
+    return bytes(image_bytes)
+
+
+def dna_to_image(dna_sequence, output_path):
+
+    image_bytes = dna_to_bytes(dna_sequence)
 
     # Save the reconstructed image
     with open(output_path, "wb") as file:
